@@ -13,7 +13,7 @@ export async function PATCH(req: NextRequest) {
     org.name = String(body.name).trim();
   }
   for (const key of ["country", "startWeekOn", "startMonth", "timeFormat", "timezone", "durationFormat", "currency", "language", "geofenceUnit"] as const) {
-    if (body[key] !== undefined) (org as Record<string, unknown>)[key] = body[key];
+    if (body[key] !== undefined) (org as unknown as Record<string, unknown>)[key] = body[key];
   }
   return NextResponse.json(org);
 }
