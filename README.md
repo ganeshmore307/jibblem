@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TrackDeck
 
-## Getting Started
+A full-featured time tracking and workforce management web app (an independent
+functional clone of the Jibble product experience, with original branding and
+demo data). Built with Next.js 14 (App Router), TypeScript and Tailwind CSS.
 
-First, run the development server:
+## Features
+
+- **Authentication** — cookie-based demo login with seeded members.
+- **Dashboard** — who's in/out, team hours chart, my activity, pending time off, upcoming holidays.
+- **Timesheets** — monthly calendar (weekly + monthly totals, holidays, faded adjacent months),
+  weekly team table, daily entries with add/edit/delete, breaks, activities, projects, notes,
+  statuses, validation, member selector, date navigation with URL state.
+- **Clock in/out** — live clock widget in the header with breaks.
+- **Attendance** — daily statuses (present, late, absent, clocked in, holiday, time off, day off) and summary cards.
+- **People** — searchable, filterable, sortable, paginated member table, profile drawer, add/archive members, role changes.
+- **Time Off** — request list with approve/reject workflow, team calendar, request form, policies, holidays.
+- **Reports** — tracked time (filters, date range, daily chart, activity breakdown, CSV export) and attendance insights.
+- **Settings** — time tracking policies, work schedules, time off policies, holiday calendar,
+  locations/geofences, activities/projects/clients, organization profile and permissions, integrations, invoices.
+- **Responsive** — desktop sidebar collapses; mobile drawer navigation; tables scroll horizontally.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 and sign in with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Email:** `kiran@upscaledemo.com` (any seeded member email works)
+- **Password:** `demo1234`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+No environment variables are required. Data is an in-memory, deterministically
+seeded demo database — mutations persist for the lifetime of the server process
+and reset on restart.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command             | Description               |
+| ------------------- | ------------------------- |
+| `npm run dev`       | Start the dev server      |
+| `npm run build`     | Production build          |
+| `npm run start`     | Serve the production build|
+| `npm run lint`      | ESLint                    |
+| `npm run typecheck` | TypeScript type checking  |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/lib/types.ts` — domain types (members, entries, leave, schedules, ...).
+- `src/lib/time.ts` — date/time helpers; durations are integer minutes.
+- `src/lib/data/seed.ts` — deterministic seed data (~120 days of entries for 11 members).
+- `src/lib/data/store.ts` — in-memory singleton database.
+- `src/lib/data/timesheets.ts` — timesheet/attendance/report aggregation.
+- `src/app/api/*` — REST-style route handlers for auth, clock, entries, members, leave, settings.
+- `src/app/(app)/*` — authenticated pages; `src/components/*` — client components.

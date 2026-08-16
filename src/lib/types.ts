@@ -63,7 +63,7 @@ export interface TimeEntry {
   activityId: string | null;
   projectId: string | null;
   note: string;
-  status: "approved" | "pending";
+  status: "approved" | "pending" | "rejected";
 }
 
 export type LeaveStatus = "pending" | "approved" | "rejected";
